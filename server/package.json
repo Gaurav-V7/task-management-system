@@ -2,7 +2,10 @@
   "name": "server",
   "version": "1.0.0",
   "main": "index.js",
+<<<<<<< HEAD
   "type": "module",
+=======
+>>>>>>> 58297a5fd225127cdd8a452740ae364647285184
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
