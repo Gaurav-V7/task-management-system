@@ -21,20 +21,20 @@ sequelize.authenticate().then(() => {
 
 sequelize.sync();
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
 
-const dataFilePath = path.join(__dirname, 'data.json');
+// const dataFilePath = path.join(__dirname, 'data.json');
 
-const getTasks = () => {
-    const jsonData = fs.readFileSync(dataFilePath, 'utf-8');
-    return JSON.parse(jsonData);
-};
+// const getTasks = () => {
+//     const jsonData = fs.readFileSync(dataFilePath, 'utf-8');
+//     return JSON.parse(jsonData);
+// };
 
-const saveTasks = (data) => {
-    const saveData = JSON.stringify(data);
-    fs.writeFileSync(dataFilePath, saveData);
-};
+// const saveTasks = (data) => {
+//     const saveData = JSON.stringify(data);
+//     fs.writeFileSync(dataFilePath, saveData);
+// };
 
 app.get('/api/tasks', async (req, res) => {
 
