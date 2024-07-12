@@ -28,6 +28,8 @@
     "jquery": "^3.7.1",
     "material-symbols": "^0.21.1",
     "rxjs": "~7.8.0",
+    "sequelize": "^6.37.3",
+    "sqlite3": "^5.1.7",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.3"
   },
