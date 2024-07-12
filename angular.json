@@ -29,7 +29,10 @@
             "styles": [
               "@angular/material/prebuilt-themes/azure-blue.css",
               "src/styles.css",
-              "./node_modules/bootstrap/dist/css/bootstrap.min.css"
+              "./node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "./node_modules/material-symbols/index.css",
+              "./node_modules/material-symbols/outlined.css",
+              "./node_modules/material-symbols/rounded.css"
             ],
             "scripts": [
               "./node_modules/bootstrap/dist/js/bootstrap.js",

@@ -42,7 +42,9 @@ app.post('/api/tasks', (req, res) => {
 
     const taskData = req.body;
 
-    if (taskData.id == null || taskData.title == null) {
+    taskData.id = (Math.round(Date.now() / 1000)).toString();
+
+    if (taskData.title == null) {
         return res.status(401).send({ status: 'error', message: 'Task data missing' });
     }
 

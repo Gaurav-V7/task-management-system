@@ -1,39 +1,49 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { environment } from '../environments/environment';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { Task } from './Task';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
 
-  private apiUrl = `${environment.apiUrl}/items`;
+  private apiUrl = `${environment.apiUrl}/tasks`;
+
+  private tasksSubject = new BehaviorSubject<Task[]>([]);
+  tasks$ = this.tasksSubject.asObservable();
 
   constructor(private http: HttpClient) {
+    this.getTasks().subscribe();
   }
 
-  getItems(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl);
+  getTasks(): Observable<Task[]> {
+    return this.http.get<Task[]>(this.apiUrl).pipe(
+      tap(data => {
+        const sortedData = data.sort((a, b) => {
+          return a.completed == b.completed ? 0 : a.completed ? 1 : -1;
+        });
+        this.tasksSubject.next(data);
+      })
+    );
   }
 
-  getTasks() {
-    return this.http.get(this.apiUrl, { observe: 'response' });
+  addTask(item: Task): Observable<HttpResponse<Task>> {
+    return this.http.post<Task>(this.apiUrl, item, { observe: 'response' }).pipe(
+      tap(() => this.getTasks().subscribe())
+    );
   }
 
-  addTask(item: any) {
-    return this.http.post(this.apiUrl, item);
+  updateTask(id: string, task: Task): Observable<HttpResponse<Task>> {
+    return this.http.put<Task>(`${this.apiUrl}/${id}`, task, { observe: 'response' }).pipe(
+      tap(() => this.getTasks().subscribe())
+    );
   }
 
-  addItem(item: any): Observable<any> {
-    return this.http.post<any>(this.apiUrl, item);
-  }
-
-  updateItem(id: string, item: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/${id}`, item);
-  }
-
-  deleteItem(id: string): Observable<any> {
-    return this.http.delete<any>(`${this.apiUrl}/${id}`);
+  deleteItem(id: string): Observable<HttpResponse<void>> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`, { observe: 'response' }).pipe(
+      tap(() => this.getTasks().subscribe())
+    );
   }
 }

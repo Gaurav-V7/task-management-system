@@ -1,0 +1,23 @@
+.completed-column-header,
+.completed-column-cell {
+  width: 50px;
+  /* Adjust the width as needed */
+  max-width: 200px;
+  min-width: 100px;
+}
+
+.centered-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.completed-task {
+  background-color: rgb(146, 253, 158);
+}
+
+.button-content {
+  display: flex;
+  align-items: center;
+}
