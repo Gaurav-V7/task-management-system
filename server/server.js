@@ -10,6 +10,7 @@ const app = express();
 const port = 3000;
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 const __filename = fileURLToPath(import.meta.url);
@@ -26,10 +27,6 @@ const saveTasks = (data) => {
     const saveData = JSON.stringify(data);
     fs.writeFileSync(dataFilePath, saveData);
 };
-
-app.get('/', (req, res) => {
-    res.send({ message: 'Hello world!' });
-});
 
 app.get('/api/tasks', (req, res) => {
     const data = getTasks();
