@@ -6,6 +6,7 @@ import { title } from 'process';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
+import { DataService } from '../../data.service';
 
 @Component({
   selector: 'app-tasks',
@@ -20,7 +21,7 @@ export class TasksComponent implements OnInit {
 
   displayColumns: string[] = ['id', 'title', 'description', 'completed', 'actions'];
 
-  constructor() {
+  constructor(private dataService: DataService) {
     this.tasks = [
       {
         id: 1,
@@ -50,7 +51,35 @@ export class TasksComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    
+    this.loadItems();
+  }
+
+  loadItems(): void {
+    this.dataService.getItems().subscribe((data) => {
+      this.tasks = data;
+    });
+  }
+
+  addTask() {
+    const newTask: Task = {
+      id: 1,
+      title: "Task 1",
+      description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus, voluptatum!",
+      completed: true
+    };
+    this.dataService.addTask(newTask);
+  }
+
+  updateTask(task: Task) {
+    this.dataService.updateItem(task.id.toString(), task).subscribe(() => {
+      this.loadItems();
+    });
+  }
+
+  deleteTask(task: Task) {
+    this.dataService.deleteItem(task.id.toString()).subscribe(() => {
+      this.loadItems();
+    });
   }
 
 }
