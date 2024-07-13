@@ -19,14 +19,15 @@ export class DataService {
   }
 
   getTasks(): Observable<Task[]> {
-    return this.http.get<Task[]>(this.apiUrl).pipe(
-      tap(data => {
-        const sortedData = data.sort((a, b) => {
-          return a.completed == b.completed ? 0 : a.completed ? 1 : -1;
-        });
-        this.tasksSubject.next(data);
-      })
-    );
+    return this.http.get<Task[]>(this.apiUrl);
+    // .pipe(
+    //   tap(data => {
+    //     const sortedData = data.sort((a, b) => {
+    //       return a.completed == b.completed ? 0 : a.completed ? 1 : -1;
+    //     });
+    //     this.tasksSubject.next(data);
+    //   })
+    // );
   }
 
   addTask(item: Task): Observable<HttpResponse<Task>> {
