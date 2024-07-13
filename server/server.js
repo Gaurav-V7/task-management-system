@@ -26,12 +26,12 @@ const saveTasks = (data) => {
     // fs.writeFileSync(dataFilePath, saveData);
 };
 
-app.get('/api/tasks', async (req, res) => {
+app.get('/api/tasks', (req, res) => {
     const data = getTasks();
     res.json(data);
 });
 
-app.post('/api/tasks', async (req, res) => {
+app.post('/api/tasks', (req, res) => {
 
     const existsTasks = getTasks();
 
@@ -53,7 +53,7 @@ app.post('/api/tasks', async (req, res) => {
     res.send({ status: 'success', message: 'Task added successfully' });
 });
 
-app.put('/api/tasks/:id', async (req, res) => {
+app.put('/api/tasks/:id', (req, res) => {
     const taskId = req.params.id;
     const updatedTask = req.body;
     const tasks = getTasks();
@@ -67,29 +67,16 @@ app.put('/api/tasks/:id', async (req, res) => {
     }
 });
 
-app.delete('/api/tasks/:id', async (req, res) => {
-    try {
-        const deleted = await Task.destroy({
-          where: { id: req.params.id },
-        });
-        if (deleted) {
-          res.status(204).send();
-        } else {
-          res.status(404).json({ message: 'Task not found' });
-        }
-      } catch (error) {
-        res.status(500).json({ error: error.message });
-      }
-
-    // const taskId = req.params.id;
-    // const tasks = getTasks();
-    // const updatedTasks = tasks.filter(task => task.id != taskId);
-    // if (tasks.length != updatedTasks.length) {
-    //     saveTasks(updatedTasks);
-    //     res.json({ status: 'success', message: 'Task deleted successfully' });
-    // } else {
-    //     res.status(404).json({ status: 'error', message: 'Task not found' });
-    // }
+app.delete('/api/tasks/:id', (req, res) => {
+    const taskId = req.params.id;
+    const tasks = getTasks();
+    const updatedTasks = tasks.filter(task => task.id != taskId);
+    if (tasks.length != updatedTasks.length) {
+        saveTasks(updatedTasks);
+        res.json({ status: 'success', message: 'Task deleted successfully' });
+    } else {
+        res.status(404).json({ status: 'error', message: 'Task not found' });
+    }
 });
 
 app.listen(port, () => {
