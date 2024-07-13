@@ -1,5 +1,6 @@
 {
     "version": 2,
+    "name": "task-management-system",
     "builds": [
         {
             "src": "package.json",

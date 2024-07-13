@@ -1,3 +1,10 @@
+.column-header,
+.column-cell {
+  width: 100px;
+  max-width: 250px;
+  min-width: 50px;
+}
+
 .completed-column-header,
 .completed-column-cell {
   width: 50px;
@@ -14,10 +21,40 @@
 }
 
 .completed-task {
-  background-color: rgb(146, 253, 158);
+  background-color: rgb(168, 255, 177);
 }
 
 .button-content {
   display: flex;
   align-items: center;
 }
+
+.table-container {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  text-align: center;
+  padding: 8px;
+  word-wrap: break-word;
+  white-space: normal;
+}
+
+@media screen and (max-width: 600px) {
+  th, td {
+    padding: 6px;
+    font-size: 12px;
+  }
+
+  th {
+    font-size: 13px;
+  }
+}
+

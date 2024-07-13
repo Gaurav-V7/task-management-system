@@ -23,7 +23,7 @@ export class TasksComponent implements OnInit {
 
   tasks: Task[] = [];
 
-  displayColumns: string[] = ['id', 'title', 'description', 'completed', 'actions'];
+  displayColumns: string[] = ['id', 'title', 'description', 'actions'];
 
   @Input() task: Task;
 
