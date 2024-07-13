@@ -28,10 +28,10 @@ export class TasksComponent implements OnInit {
   @Input() task: Task;
 
   constructor(private dataService: DataService, public dialog: MatDialog, private snackBar: MatSnackBar) {
+    this.loadItems();
   }
 
   ngOnInit(): void {
-    this.loadItems();
   }
 
   loadItems(): void {
