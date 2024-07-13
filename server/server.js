@@ -1,12 +1,19 @@
 import express from 'express';
 import cors from 'cors';
+import { LocalStorage } from 'node-localstorage';
 
 const app = express();
 const port = process.env.PORT || 3000;
 
+// if (typeof localStorage == 'undefined' || localStorage == null) {
+    
+// }
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
+
+const localStorage = new LocalStorage('./scratch');
 
 let tasksJSONString = "[]";
 
@@ -17,12 +24,14 @@ let tasksJSONString = "[]";
 
 const getTasks = () => {
     // const jsonData = fs.readFileSync(dataFilePath, 'utf-8');
-    return JSON.parse(tasksJSONString);
+    const jsonData = localStorage.getItem('tasks');
+    return JSON.parse(jsonData);
 };
 
 const saveTasks = (data) => {
     // const saveData =
-    tasksJSONString = JSON.stringify(data);
+    // tasksJSONString = ;
+    localStorage.setItem('tasks', JSON.stringify(data));
     // fs.writeFileSync(dataFilePath, saveData);
 };
 
