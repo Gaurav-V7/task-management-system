@@ -1,25 +1,27 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { TaskItemComponent } from '../task-item/task-item.component';
 import { CommonModule } from '@angular/common';
 import { Task } from '../../Task';
 import { title } from 'process';
-import { MatTableModule } from '@angular/material/table';
+import { MatTable, MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { DataService } from '../../data.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AddTaskComponent } from '../add-task/add-task.component';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-tasks',
   standalone: true,
-  imports: [CommonModule, TaskItemComponent, MatTableModule, MatButtonModule, MatIcon, FormsModule],
+  imports: [CommonModule, TaskItemComponent, MatTableModule, MatButtonModule, MatIcon, FormsModule, ReactiveFormsModule],
   templateUrl: './tasks.component.html',
   styleUrl: './tasks.component.css'
 })
 export class TasksComponent implements OnInit {
+
+  @ViewChild(MatTable) table: MatTable<Task[]>;
 
   tasks: Task[] = [];
 
@@ -28,15 +30,16 @@ export class TasksComponent implements OnInit {
   @Input() task: Task;
 
   constructor(private dataService: DataService, public dialog: MatDialog, private snackBar: MatSnackBar) {
-    this.loadItems();
   }
 
   ngOnInit(): void {
+    this.loadItems();
   }
 
   loadItems(): void {
     this.dataService.tasks$.subscribe((data) => {
       this.tasks = data;
+      this.table.renderRows();
     });
   }
 
