@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
-import { LocalStorage } from 'node-localstorage';
+import bodyParser from 'body-parser';
+import { exists } from 'fs';
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -9,13 +10,11 @@ const port = process.env.PORT || 3000;
     
 // }
 
-app.use(express.json());
+app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
-const localStorage = new LocalStorage('./scratch');
-
-let tasksJSONString = "[]";
+let tasksArr = [];
 
 // const __filename = fileURLToPath(import.meta.url);
 // const __dirname = path.dirname(__filename);
@@ -24,15 +23,30 @@ let tasksJSONString = "[]";
 
 const getTasks = () => {
     // const jsonData = fs.readFileSync(dataFilePath, 'utf-8');
-    const jsonData = localStorage.getItem('tasks');
-    return JSON.parse(jsonData);
+    
+    // const jsonData = localStorage.getItem('tasks');
+    // return JSON.parse(jsonData);
+
+    const mainData = tasksArr
+        .map(item => ({
+            id: item.id,
+            title: item.title,
+            description: item.description,
+            completed: item.completed
+        }));
+    
+    return mainData;
 };
 
 const saveTasks = (data) => {
     // const saveData =
     // tasksJSONString = ;
-    localStorage.setItem('tasks', JSON.stringify(data));
+
+    // localStorage.setItem('tasks', JSON.stringify(data));
+    
     // fs.writeFileSync(dataFilePath, saveData);
+
+    tasksArr = data;
 };
 
 app.get('/api/tasks', (req, res) => {
@@ -48,15 +62,18 @@ app.post('/api/tasks', (req, res) => {
 
     taskData.id = (Math.round(Date.now() / 1000)).toString();
 
-    if (taskData.title == null) {
-        return res.status(401).send({ status: 'error', message: 'Task data missing' });
-    }
+    // if (taskData.title == null) {
+    //     return res.status(401).send({ status: 'error', message: 'Task data missing' });
+    // }
 
-    const findExist = existsTasks.find( task => task.id == taskData.id)
-    if (findExist) {
-        return res.status(409).send({ status: 'error', message: 'Task id must be unique' });
-    }
+    // const findExist = existsTasks.find( task => task.id == taskData.id)
+    // if (findExist) {
+    //     return res.status(409).send({ status: 'error', message: 'Task id must be unique' });
+    // }
 
+    // existsTasks.push(taskData);
+    // saveTasks(existsTasks);
+    
     existsTasks.push(taskData);
     saveTasks(existsTasks);
     res.send({ status: 'success', message: 'Task added successfully' });
